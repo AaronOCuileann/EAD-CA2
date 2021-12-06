@@ -1,0 +1,118 @@
+﻿@page "/fetchdata"
+@inject HttpClient Http
+@using System.Linq
+
+<h1>Crypto</h1>
+
+<p>This component demonstrates fetching data from the cryto API.</p>
+
+<div class="input-group mb-3">
+    <div class="input-group-prepend">
+        <label class="input-group-text">Sort By: </label>
+    </div>
+    <select @bind="SelectedSort">
+        <option value="idAsc">ID (Ascending)</option>
+        <option value="idDesc">ID (Descending)</option>
+        <option value="nameAsc">Name (Ascending)</option>
+        <option value="nameDesc">Name (Descending)</option>
+        <option value="rankAsc">Rank (Ascending)</option>
+        <option value="rankDesc">Rank (Descending)</option>
+        <option value="priceAsc">Price (Ascending)</option>
+        <option value="priceDesc">Price (Descending)</option>
+    </select>
+</div>
+
+@if (cryptos == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Rank</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var crypto in cryptos.data)
+            {
+                <tr>
+                    <td>@crypto.id</td>
+                    <td>@crypto.name</td>
+                    <td>@crypto.rank</td>
+                    <td>@crypto.price_usd</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Root cryptos;
+    List<string> cryptoNames;
+    private string selectedSort;
+    public string SelectedSort
+    {
+        get { return selectedSort;  }
+        set
+        {
+            selectedSort = value;
+            selectedSortDict[selectedSort]();
+        }
+    }
+    Dictionary<string, Action> selectedSortDict;
+
+    protected override async Task OnInitializedAsync()
+    {
+        cryptos = await Http.GetFromJsonAsync<Root>("https://api.coinlore.net/api/tickers/?start=0&limit=100");
+        selectedSortDict = new Dictionary<string, Action>
+        {
+            ["idAsc"] = () => cryptos.data = cryptos.data.OrderBy(a => a.id.Length).ThenBy(a => a.id).ToList(),
+            ["idDes"] = () => cryptos.data = cryptos.data.OrderByDescending(a => a.id.Length).ThenBy(a => a.id).ToList(),
+            ["nameAsc"] = () => cryptos.data = cryptos.data.OrderBy(a => a.name).ToList(),
+            ["nameDesc"] = () => cryptos.data = cryptos.data.OrderByDescending(a => a.name).ToList(),
+            ["rankAsc"] = () => cryptos.data = cryptos.data.OrderBy(a => a.rank).ToList(),
+            ["rankDesc"] = () => cryptos.data = cryptos.data.OrderByDescending(a => a.rank).ToList(),
+            ["priceAsc"] = () => cryptos.data = cryptos.data.OrderBy(a => decimal.Parse(a.price_usd)).ToList(),
+            ["priceDesc"] = () => cryptos.data = cryptos.data.OrderByDescending(a => decimal.Parse(a.price_usd)).ToList(),
+        };
+    }
+    public string Filter { get; set; }
+
+    public class Datum
+    {
+        public string id { get; set; }
+        public string symbol { get; set; }
+        public string name { get; set; }
+        public string nameid { get; set; }
+        public int rank { get; set; }
+        public string price_usd { get; set; }
+        public string percent_change_24h { get; set; }
+        public string percent_change_1h { get; set; }
+        public string percent_change_7d { get; set; }
+        public string price_btc { get; set; }
+        public string market_cap_usd { get; set; }
+        public double volume24 { get; set; }
+        public double volume24a { get; set; }
+        public string csupply { get; set; }
+        public string tsupply { get; set; }
+        public string msupply { get; set; }
+    }
+
+    public class Info
+    {
+        public int coins_num { get; set; }
+        public int time { get; set; }
+    }
+
+    public class Root
+    {
+        public List<Datum> data { get; set; }
+        public Info info { get; set; }
+    }
+}

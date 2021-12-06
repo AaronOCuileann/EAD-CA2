@@ -1,0 +1,92 @@
+﻿@page "/counter"
+@inject HttpClient Http
+
+<h1>Crypto</h1>
+
+<p>This component demonstrates fetching data from the cryto API.</p>
+
+@if (cryptos == null)
+{
+    Console.WriteLine("test1", cryptos);
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Rank</th>
+                <th>Price</th>
+                <th>Change 1h</th>
+                <th>Change 24h</th>
+                <th>Change 7 days</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var crypto in cryptos)
+            {
+            <tr>
+                <td>@crypto.id</td>
+                <td>@crypto.name</td>
+                <td>@crypto.rank</td>
+                <td>@crypto.price_usd</td>
+                @if (crypto.percent_change_1h.Contains("-"))
+                {
+                    <td style="color:red">@crypto.percent_change_1h%</td>
+                }
+                else
+                {
+                    <td style="color:green">@crypto.percent_change_1h%</td>
+                }
+                @if (crypto.percent_change_24h.Contains("-"))
+                {
+                    <td style="color:red">@crypto.percent_change_24h%</td>
+                }
+                else
+                {
+                    <td style="color:green">@crypto.percent_change_24h%</td>
+                }
+                @if (crypto.percent_change_7d.Contains("-"))
+                {
+                    <td style="color:red">@crypto.percent_change_7d%</td>
+                }
+                else
+                {
+                    <td style="color:green">@crypto.percent_change_7d%</td>
+                }
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Root[] cryptos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        cryptos = await Http.GetFromJsonAsync<Root[]>("https://api.coinlore.net/api/ticker/?id=34406");
+    }
+
+    public class Root
+    {
+        public string id { get; set; }
+        public string symbol { get; set; }
+        public string name { get; set; }
+        public string nameid { get; set; }
+        public int rank { get; set; }
+        public string price_usd { get; set; }
+        public string percent_change_24h { get; set; }
+        public string percent_change_1h { get; set; }
+        public string percent_change_7d { get; set; }
+        public string market_cap_usd { get; set; }
+        public string volume24 { get; set; }
+        public string volume24_native { get; set; }
+        public string csupply { get; set; }
+        public string price_btc { get; set; }
+        public string tsupply { get; set; }
+        public string msupply { get; set; }
+    }
+}
