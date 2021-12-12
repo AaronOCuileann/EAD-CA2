@@ -97,7 +97,7 @@ using System.Linq;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 68 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\Pages\Index.razor"
+#line 71 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\Pages\Index.razor"
        
     private Root cryptos;
     private Root filteredCryptos;
@@ -115,9 +115,7 @@ using System.Linq;
 
     protected override async Task OnInitializedAsync()
     {
-        //there are only 100 crypto currerncies in this API, set limit to max
-        cryptos = await Http.GetFromJsonAsync<Root>("https://api.coinlore.net/api/tickers/?start=0&limit=100");
-        filteredCryptos = cryptos;
+        cryptos = filteredCryptos = await Http.GetFromJsonAsync<Root>("https://api.coinlore.net/api/tickers/?start=0&limit=100");
         selectedSortDict = new Dictionary<string, Action>
         {
             ["idAsc"] = () => cryptos.data = cryptos.data.OrderBy(a => a.id.Length).ThenBy(a => a.id).ToList(),
@@ -163,15 +161,11 @@ using System.Linq;
         public Info info { get; set; }
     }
 
-    private async void OnSearchTextChange(ChangeEventArgs changeEventArgs)
+    private void OnSearchTextChange(ChangeEventArgs changeEventArgs)
     {
         string searchText = changeEventArgs.Value.ToString();
-        Console.WriteLine(searchText);
 
-        filteredCryptos.data = cryptos.data.Where(crypto => crypto.name.Contains(searchText)).ToList();
-        Console.WriteLine(cryptos.data.Count());
-        Console.WriteLine(filteredCryptos.data.Count());
-        cryptos = await Http.GetFromJsonAsync<Root>("https://api.coinlore.net/api/tickers/?start=0&limit=100");
+        filteredCryptos.data = cryptos.data.Where(a => a.name.Contains(searchText)).ToList();
     }
 
 #line default

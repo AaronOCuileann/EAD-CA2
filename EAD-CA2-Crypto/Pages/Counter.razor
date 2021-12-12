@@ -1,73 +1,113 @@
-﻿@page "/counter"
+﻿@page "/crypto/{cryptoId:int}"
 @inject HttpClient Http
+
+<style>
+    .scroll {
+        overflow: scroll;
+        height: 55vh;
+    }
+</style>
 
 <h1>Crypto</h1>
 
-<p>This component demonstrates fetching data from the cryto API.</p>
+<p>This table display more specific data on a crypto.</p>
 
 @if (cryptos == null)
 {
-    Console.WriteLine("test1", cryptos);
     <p><em>Loading...</em></p>
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Rank</th>
-                <th>Price</th>
-                <th>Change 1h</th>
-                <th>Change 24h</th>
-                <th>Change 7 days</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var crypto in cryptos)
-            {
-            <tr>
-                <td>@crypto.id</td>
-                <td>@crypto.name</td>
-                <td>@crypto.rank</td>
-                <td>@crypto.price_usd</td>
-                @if (crypto.percent_change_1h.Contains("-"))
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Rank</th>
+                    <th>Price</th>
+                    <th>Change 1h</th>
+                    <th>Change 24h</th>
+                    <th>Change 7 days</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var crypto in cryptos)
                 {
-                    <td style="color:red">@crypto.percent_change_1h%</td>
+                    <tr>
+                        <td>@crypto.id</td>
+                        <td>@crypto.name</td>
+                        <td>@crypto.rank</td>
+                        <td>$ @crypto.price_usd</td>
+                        @if (crypto.percent_change_1h.Contains("-"))
+                        {
+                            <td style="color:red">@crypto.percent_change_1h%</td>
+                        }
+                        else
+                        {
+                            <td style="color:green">@crypto.percent_change_1h%</td>
+                        }
+                        @if (crypto.percent_change_24h.Contains("-"))
+                        {
+                            <td style="color:red">@crypto.percent_change_24h%</td>
+                        }
+                        else
+                        {
+                            <td style="color:green">@crypto.percent_change_24h%</td>
+                        }
+                        @if (crypto.percent_change_7d.Contains("-"))
+                        {
+                            <td style="color:red">@crypto.percent_change_7d%</td>
+                        }
+                        else
+                        {
+                            <td style="color:green">@crypto.percent_change_7d%</td>
+                        }
+                    </tr>
                 }
-                else
-                {
-                    <td style="color:green">@crypto.percent_change_1h%</td>
-                }
-                @if (crypto.percent_change_24h.Contains("-"))
-                {
-                    <td style="color:red">@crypto.percent_change_24h%</td>
-                }
-                else
-                {
-                    <td style="color:green">@crypto.percent_change_24h%</td>
-                }
-                @if (crypto.percent_change_7d.Contains("-"))
-                {
-                    <td style="color:red">@crypto.percent_change_7d%</td>
-                }
-                else
-                {
-                    <td style="color:green">@crypto.percent_change_7d%</td>
-                }
-            </tr>
-            }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+        <br />
+        <h1>Crypto Markets</h1>
+        <p>This table displays the markets that have this crypto.</p>
+        <div class="scroll">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Market Name</th>
+                        <th>Price</th>
+                        <th>Volume</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var crypto in cryptoMarkets)
+                    {
+                        <tr>
+                            <td>@crypto.name</td>
+                            <td>$ @crypto.price_usd</td>
+                            <td>@crypto.volume</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 }
 
 @code {
+    [Parameter]
+    public int cryptoId { get; set; }
+
     private Root[] cryptos;
+    private MarketRoot[] cryptoMarkets;
 
     protected override async Task OnInitializedAsync()
     {
-        cryptos = await Http.GetFromJsonAsync<Root[]>("https://api.coinlore.net/api/ticker/?id=34406");
+        string getURL = $"https://api.coinlore.net/api/ticker/?id={cryptoId}";
+        cryptos = await Http.GetFromJsonAsync<Root[]>(getURL);
+
+        string getMarketURL = $"https://api.coinlore.net/api/coin/markets/?id={cryptoId}";
+        cryptoMarkets = await Http.GetFromJsonAsync<MarketRoot[]>(getMarketURL);
     }
 
     public class Root
@@ -88,5 +128,17 @@ else
         public string price_btc { get; set; }
         public string tsupply { get; set; }
         public string msupply { get; set; }
+    }
+
+    public class MarketRoot
+    {
+        public string name { get; set; }
+        public string @base { get; set; }
+        public string quote { get; set; }
+        public double? price { get; set; }
+        public double? price_usd { get; set; }
+        public double? volume { get; set; }
+        public double? volume_usd { get; set; }
+        public int? time { get; set; }
     }
 }

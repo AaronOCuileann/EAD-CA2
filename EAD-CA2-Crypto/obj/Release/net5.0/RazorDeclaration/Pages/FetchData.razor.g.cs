@@ -82,14 +82,14 @@ using EAD_CA2_Crypto.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\Pages\Index.razor"
+#line 3 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\Pages\FetchData.razor"
 using System.Linq;
 
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/")]
-    public partial class Index : Microsoft.AspNetCore.Components.ComponentBase
+    [Microsoft.AspNetCore.Components.RouteAttribute("/fetchdata")]
+    public partial class FetchData : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -97,14 +97,14 @@ using System.Linq;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 68 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\Pages\Index.razor"
+#line 55 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\Pages\FetchData.razor"
        
     private Root cryptos;
-    private Root filteredCryptos;
+    List<string> cryptoNames;
     private string selectedSort;
     public string SelectedSort
     {
-        get { return selectedSort; }
+        get { return selectedSort;  }
         set
         {
             selectedSort = value;
@@ -115,13 +115,11 @@ using System.Linq;
 
     protected override async Task OnInitializedAsync()
     {
-        //there are only 100 crypto currerncies in this API, set limit to max
         cryptos = await Http.GetFromJsonAsync<Root>("https://api.coinlore.net/api/tickers/?start=0&limit=100");
-        filteredCryptos = cryptos;
         selectedSortDict = new Dictionary<string, Action>
         {
             ["idAsc"] = () => cryptos.data = cryptos.data.OrderBy(a => a.id.Length).ThenBy(a => a.id).ToList(),
-            ["idDesc"] = () => cryptos.data = cryptos.data.OrderByDescending(a => a.id.Length).ThenBy(a => a.id).ToList(),
+            ["idDes"] = () => cryptos.data = cryptos.data.OrderByDescending(a => a.id.Length).ThenBy(a => a.id).ToList(),
             ["nameAsc"] = () => cryptos.data = cryptos.data.OrderBy(a => a.name).ToList(),
             ["nameDesc"] = () => cryptos.data = cryptos.data.OrderByDescending(a => a.name).ToList(),
             ["rankAsc"] = () => cryptos.data = cryptos.data.OrderBy(a => a.rank).ToList(),
@@ -130,6 +128,7 @@ using System.Linq;
             ["priceDesc"] = () => cryptos.data = cryptos.data.OrderByDescending(a => decimal.Parse(a.price_usd)).ToList(),
         };
     }
+    public string Filter { get; set; }
 
     public class Datum
     {
@@ -161,17 +160,6 @@ using System.Linq;
     {
         public List<Datum> data { get; set; }
         public Info info { get; set; }
-    }
-
-    private async void OnSearchTextChange(ChangeEventArgs changeEventArgs)
-    {
-        string searchText = changeEventArgs.Value.ToString();
-        Console.WriteLine(searchText);
-
-        filteredCryptos.data = cryptos.data.Where(crypto => crypto.name.Contains(searchText)).ToList();
-        Console.WriteLine(cryptos.data.Count());
-        Console.WriteLine(filteredCryptos.data.Count());
-        cryptos = await Http.GetFromJsonAsync<Root>("https://api.coinlore.net/api/tickers/?start=0&limit=100");
     }
 
 #line default

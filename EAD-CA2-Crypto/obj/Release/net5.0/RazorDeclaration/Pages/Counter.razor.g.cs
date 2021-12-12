@@ -4,7 +4,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace EAD_CA2_Crypto
+namespace EAD_CA2_Crypto.Pages
 {
     #line hidden
     using System;
@@ -82,13 +82,48 @@ using EAD_CA2_Crypto.Shared;
 #line default
 #line hidden
 #nullable disable
-    public partial class App : Microsoft.AspNetCore.Components.ComponentBase
+    [Microsoft.AspNetCore.Components.RouteAttribute("/counter")]
+    public partial class Counter : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 65 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\Pages\Counter.razor"
+       
+    private Root[] cryptos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        cryptos = await Http.GetFromJsonAsync<Root[]>("https://api.coinlore.net/api/ticker/?id=34406");
+    }
+
+    public class Root
+    {
+        public string id { get; set; }
+        public string symbol { get; set; }
+        public string name { get; set; }
+        public string nameid { get; set; }
+        public int rank { get; set; }
+        public string price_usd { get; set; }
+        public string percent_change_24h { get; set; }
+        public string percent_change_1h { get; set; }
+        public string percent_change_7d { get; set; }
+        public string market_cap_usd { get; set; }
+        public string volume24 { get; set; }
+        public string volume24_native { get; set; }
+        public string csupply { get; set; }
+        public string price_btc { get; set; }
+        public string tsupply { get; set; }
+        public string msupply { get; set; }
+    }
+
+#line default
+#line hidden
+#nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private HttpClient Http { get; set; }
     }
 }
 #pragma warning restore 1591

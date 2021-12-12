@@ -3609,11 +3609,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\aaron\\source\\repos\\EAD-CA2-Crypto\\EAD-CA2-Crypto.csproj",
+      "projectUniqueName": "C:\\Users\\aaron\\EAD-CA2\\EAD-CA2-Crypto\\EAD-CA2-Crypto.csproj",
       "projectName": "EAD-CA2-Crypto",
-      "projectPath": "C:\\Users\\aaron\\source\\repos\\EAD-CA2-Crypto\\EAD-CA2-Crypto.csproj",
+      "projectPath": "C:\\Users\\aaron\\EAD-CA2\\EAD-CA2-Crypto\\EAD-CA2-Crypto.csproj",
       "packagesPath": "C:\\Users\\aaron\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\aaron\\source\\repos\\EAD-CA2-Crypto\\obj\\",
+      "outputPath": "C:\\Users\\aaron\\EAD-CA2\\EAD-CA2-Crypto\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\aaron\\AppData\\Roaming\\NuGet\\NuGet.Config",

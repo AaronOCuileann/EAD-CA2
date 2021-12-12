@@ -8,8 +8,8 @@
 
 <style>
     .scroll {
-        overflow:scroll;
-        height: 100vh;
+        overflow: scroll;
+        height: 70vh;
     }
 </style>
 
@@ -29,7 +29,7 @@
     </div>
     <div class="input-group-prepend">
         <label class="input-group-text">Filter: </label>
-        <input class="form-control" placeholder="Search Name..." @oninput="OnSearchTextChange" />
+        <input class="form-control" id="search-name" placeholder="Search Name..." @oninput="OnSearchTextChange" />
     </div>
 </div>
 
@@ -39,33 +39,30 @@
 }
 else
 {
-<div class="scroll">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Rank</th>
-                <th>Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var crypto in filteredCryptos.data)
-            {
+    <div class="scroll">
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@crypto.id</td>
-                    <td><NavLink href="/counter">@crypto.name</NavLink></td>
-                    <td>@crypto.rank</td>
-                    <td>$ @crypto.price_usd</td>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Rank</th>
+                    <th>Price</th>
                 </tr>
-            }
-            @foreach (var crypto in cryptos.data)
-            {
-                Console.WriteLine(crypto.name);
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @foreach (var crypto in filteredCryptos.data)
+                {
+                    var link = $"/crypto/{crypto.id}";
+                    <tr>
+                        <td>@crypto.id</td>
+                        <td><NavLink href="@link">@crypto.name</NavLink></td>
+                        <td>@crypto.rank</td>
+                        <td>$ @crypto.price_usd</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }
 
 @code {
@@ -85,7 +82,9 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        cryptos = filteredCryptos = await Http.GetFromJsonAsync<Root>("https://api.coinlore.net/api/tickers/?start=0&limit=100");
+        //there are only 100 crypto currerncies in this API, set limit to max
+        cryptos = await Http.GetFromJsonAsync<Root>("https://api.coinlore.net/api/tickers/?start=0&limit=100");
+        filteredCryptos = cryptos;
         selectedSortDict = new Dictionary<string, Action>
         {
             ["idAsc"] = () => cryptos.data = cryptos.data.OrderBy(a => a.id.Length).ThenBy(a => a.id).ToList(),
@@ -131,10 +130,14 @@ else
         public Info info { get; set; }
     }
 
-    private void OnSearchTextChange(ChangeEventArgs changeEventArgs)
+    private async void OnSearchTextChange(ChangeEventArgs changeEventArgs)
     {
         string searchText = changeEventArgs.Value.ToString();
+        Console.WriteLine(searchText);
 
-        filteredCryptos.data = cryptos.data.Where(a => a.name.Contains(searchText)).ToList();
+        filteredCryptos.data = cryptos.data.Where(crypto => crypto.name.Contains(searchText)).ToList();
+        Console.WriteLine(cryptos.data.Count());
+        Console.WriteLine(filteredCryptos.data.Count());
+        cryptos = await Http.GetFromJsonAsync<Root>("https://api.coinlore.net/api/tickers/?start=0&limit=100");
     }
 }

@@ -13,76 +13,76 @@ namespace EAD_CA2_Crypto.Pages
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Components;
 #nullable restore
-#line 1 "C:\Users\aaron\source\repos\EAD-CA2-Crypto\_Imports.razor"
+#line 1 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\_Imports.razor"
 using System.Net.Http;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\aaron\source\repos\EAD-CA2-Crypto\_Imports.razor"
+#line 2 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\_Imports.razor"
 using System.Net.Http.Json;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "C:\Users\aaron\source\repos\EAD-CA2-Crypto\_Imports.razor"
+#line 3 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\_Imports.razor"
 using Microsoft.AspNetCore.Components.Forms;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "C:\Users\aaron\source\repos\EAD-CA2-Crypto\_Imports.razor"
+#line 4 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\_Imports.razor"
 using Microsoft.AspNetCore.Components.Routing;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 5 "C:\Users\aaron\source\repos\EAD-CA2-Crypto\_Imports.razor"
+#line 5 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\_Imports.razor"
 using Microsoft.AspNetCore.Components.Web;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 6 "C:\Users\aaron\source\repos\EAD-CA2-Crypto\_Imports.razor"
+#line 6 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\_Imports.razor"
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 7 "C:\Users\aaron\source\repos\EAD-CA2-Crypto\_Imports.razor"
+#line 7 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\_Imports.razor"
 using Microsoft.AspNetCore.Components.WebAssembly.Http;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 8 "C:\Users\aaron\source\repos\EAD-CA2-Crypto\_Imports.razor"
+#line 8 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\_Imports.razor"
 using Microsoft.JSInterop;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 9 "C:\Users\aaron\source\repos\EAD-CA2-Crypto\_Imports.razor"
+#line 9 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\_Imports.razor"
 using EAD_CA2_Crypto;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 10 "C:\Users\aaron\source\repos\EAD-CA2-Crypto\_Imports.razor"
+#line 10 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\_Imports.razor"
 using EAD_CA2_Crypto.Shared;
 
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/counter")]
+    [Microsoft.AspNetCore.Components.RouteAttribute("/crypto/{cryptoId:int}")]
     public partial class Counter : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -91,13 +91,21 @@ using EAD_CA2_Crypto.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 65 "C:\Users\aaron\source\repos\EAD-CA2-Crypto\Pages\Counter.razor"
+#line 97 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\Pages\Counter.razor"
        
+    [Parameter]
+    public int cryptoId { get; set; }
+
     private Root[] cryptos;
+    private MarketRoot[] cryptoMarkets;
 
     protected override async Task OnInitializedAsync()
     {
-        cryptos = await Http.GetFromJsonAsync<Root[]>("https://api.coinlore.net/api/ticker/?id=34406");
+        string getURL = $"https://api.coinlore.net/api/ticker/?id={cryptoId}";
+        cryptos = await Http.GetFromJsonAsync<Root[]>(getURL);
+
+        string getMarketURL = $"https://api.coinlore.net/api/coin/markets/?id={cryptoId}";
+        cryptoMarkets = await Http.GetFromJsonAsync<MarketRoot[]>(getMarketURL);
     }
 
     public class Root
@@ -118,6 +126,18 @@ using EAD_CA2_Crypto.Shared;
         public string price_btc { get; set; }
         public string tsupply { get; set; }
         public string msupply { get; set; }
+    }
+
+    public class MarketRoot
+    {
+        public string name { get; set; }
+        public string @base { get; set; }
+        public string quote { get; set; }
+        public double? price { get; set; }
+        public double? price_usd { get; set; }
+        public double? volume { get; set; }
+        public double? volume_usd { get; set; }
+        public int? time { get; set; }
     }
 
 #line default
