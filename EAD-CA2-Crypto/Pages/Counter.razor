@@ -1,10 +1,21 @@
 ﻿@page "/crypto/{cryptoId:int}"
 @inject HttpClient Http
+@using System.Linq
+
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
 <style>
     .scroll {
         overflow: scroll;
         height: 55vh;
+    }
+
+    .sort-th {
+        cursor: pointer;
+    }
+
+    .fa {
+        float: right;
     }
 </style>
 
@@ -19,7 +30,7 @@
 else
 {
     <div>
-        <table class="table">
+        <table class="table table-bordered table-hover">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -69,13 +80,13 @@ else
         </table>
         <br />
         <h1>Crypto Markets</h1>
-        <p>This table displays the markets that have this crypto.</p>
+        <p>This table can be sorted by the Market Name and Price table headers.</p>
         <div class="scroll">
-            <table class="table">
+            <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
-                        <th>Market Name</th>
-                        <th>Price</th>
+                        <th class="sort-th" @onclick="@(() => SortTable("name"))">Market Name<span class="fa @(SetSortIcon("name"))"></span></th>
+                        <th class="sort-th" @onclick="@(() => SortTable("price_usd"))">Price<span class="fa @(SetSortIcon("price_usd"))"></span></th>
                         <th>Volume</th>
                     </tr>
                 </thead>
@@ -97,7 +108,8 @@ else
 @code {
     [Parameter]
     public int cryptoId { get; set; }
-
+    private bool isSortedAscending;
+    private string activeSortColumn;
     private Root[] cryptos;
     private MarketRoot[] cryptoMarkets;
 
@@ -140,5 +152,43 @@ else
         public double? volume { get; set; }
         public double? volume_usd { get; set; }
         public int? time { get; set; }
+    }
+
+    private void SortTable(string columnName)
+    {
+        if (columnName != activeSortColumn)
+        {
+            cryptoMarkets = cryptoMarkets.OrderBy(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToArray();
+            isSortedAscending = true;
+            activeSortColumn = columnName;
+        }
+        else
+        {
+            if (isSortedAscending)
+            {
+                cryptoMarkets = cryptoMarkets.OrderByDescending(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToArray();
+            }
+            else
+            {
+                cryptoMarkets = cryptoMarkets.OrderBy(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToArray();
+            }
+            isSortedAscending = !isSortedAscending;
+        }
+    }
+
+    private string SetSortIcon(string columnName)
+    {
+        if (activeSortColumn != columnName)
+        {
+            return string.Empty;
+        }
+        if (isSortedAscending)
+        {
+            return "fa-sort-up";
+        }
+        else
+        {
+            return "fa-sort-down";
+        }
     }
 }

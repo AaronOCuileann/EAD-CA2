@@ -90,7 +90,7 @@ using EAD_CA2_Crypto.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 23 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\Shared\NavMenu.razor"
+#line 18 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\Shared\NavMenu.razor"
        
     private bool collapseNavMenu = true;
 

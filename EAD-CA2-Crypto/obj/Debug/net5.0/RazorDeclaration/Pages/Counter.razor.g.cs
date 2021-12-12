@@ -9,7 +9,6 @@ namespace EAD_CA2_Crypto.Pages
     #line hidden
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Components;
 #nullable restore
@@ -82,6 +81,13 @@ using EAD_CA2_Crypto.Shared;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 3 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\Pages\Counter.razor"
+using System.Linq;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/crypto/{cryptoId:int}")]
     public partial class Counter : Microsoft.AspNetCore.Components.ComponentBase
     {
@@ -91,11 +97,12 @@ using EAD_CA2_Crypto.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 97 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\Pages\Counter.razor"
+#line 108 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\Pages\Counter.razor"
        
     [Parameter]
     public int cryptoId { get; set; }
-
+    private bool isSortedAscending;
+    private string activeSortColumn;
     private Root[] cryptos;
     private MarketRoot[] cryptoMarkets;
 
@@ -138,6 +145,44 @@ using EAD_CA2_Crypto.Shared;
         public double? volume { get; set; }
         public double? volume_usd { get; set; }
         public int? time { get; set; }
+    }
+
+    private void SortTable(string columnName)
+    {
+        if (columnName != activeSortColumn)
+        {
+            cryptoMarkets = cryptoMarkets.OrderBy(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToArray();
+            isSortedAscending = true;
+            activeSortColumn = columnName;
+        }
+        else
+        {
+            if (isSortedAscending)
+            {
+                cryptoMarkets = cryptoMarkets.OrderByDescending(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToArray();
+            }
+            else
+            {
+                cryptoMarkets = cryptoMarkets.OrderBy(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToArray();
+            }
+            isSortedAscending = !isSortedAscending;
+        }
+    }
+
+    private string SetSortIcon(string columnName)
+    {
+        if (activeSortColumn != columnName)
+        {
+            return string.Empty;
+        }
+        if (isSortedAscending)
+        {
+            return "fa-sort-up";
+        }
+        else
+        {
+            return "fa-sort-down";
+        }
     }
 
 #line default

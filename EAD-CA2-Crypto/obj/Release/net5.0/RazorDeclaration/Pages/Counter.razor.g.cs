@@ -9,7 +9,6 @@ namespace EAD_CA2_Crypto.Pages
     #line hidden
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Components;
 #nullable restore
@@ -82,7 +81,14 @@ using EAD_CA2_Crypto.Shared;
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/counter")]
+#nullable restore
+#line 3 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\Pages\Counter.razor"
+using System.Linq;
+
+#line default
+#line hidden
+#nullable disable
+    [Microsoft.AspNetCore.Components.RouteAttribute("/crypto/{cryptoId:int}")]
     public partial class Counter : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -91,13 +97,22 @@ using EAD_CA2_Crypto.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 65 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\Pages\Counter.razor"
+#line 108 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\Pages\Counter.razor"
        
+    [Parameter]
+    public int cryptoId { get; set; }
+    private bool isSortedAscending;
+    private string activeSortColumn;
     private Root[] cryptos;
+    private MarketRoot[] cryptoMarkets;
 
     protected override async Task OnInitializedAsync()
     {
-        cryptos = await Http.GetFromJsonAsync<Root[]>("https://api.coinlore.net/api/ticker/?id=34406");
+        string getURL = $"https://api.coinlore.net/api/ticker/?id={cryptoId}";
+        cryptos = await Http.GetFromJsonAsync<Root[]>(getURL);
+
+        string getMarketURL = $"https://api.coinlore.net/api/coin/markets/?id={cryptoId}";
+        cryptoMarkets = await Http.GetFromJsonAsync<MarketRoot[]>(getMarketURL);
     }
 
     public class Root
@@ -118,6 +133,56 @@ using EAD_CA2_Crypto.Shared;
         public string price_btc { get; set; }
         public string tsupply { get; set; }
         public string msupply { get; set; }
+    }
+
+    public class MarketRoot
+    {
+        public string name { get; set; }
+        public string @base { get; set; }
+        public string quote { get; set; }
+        public double? price { get; set; }
+        public double? price_usd { get; set; }
+        public double? volume { get; set; }
+        public double? volume_usd { get; set; }
+        public int? time { get; set; }
+    }
+
+    private void SortTable(string columnName)
+    {
+        if (columnName != activeSortColumn)
+        {
+            cryptoMarkets = cryptoMarkets.OrderBy(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToArray();
+            isSortedAscending = true;
+            activeSortColumn = columnName;
+        }
+        else
+        {
+            if (isSortedAscending)
+            {
+                cryptoMarkets = cryptoMarkets.OrderByDescending(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToArray();
+            }
+            else
+            {
+                cryptoMarkets = cryptoMarkets.OrderBy(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToArray();
+            }
+            isSortedAscending = !isSortedAscending;
+        }
+    }
+
+    private string SetSortIcon(string columnName)
+    {
+        if (activeSortColumn != columnName)
+        {
+            return string.Empty;
+        }
+        if (isSortedAscending)
+        {
+            return "fa-sort-up";
+        }
+        else
+        {
+            return "fa-sort-down";
+        }
     }
 
 #line default

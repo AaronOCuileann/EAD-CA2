@@ -97,36 +97,18 @@ using System.Linq;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 71 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\Pages\Index.razor"
+#line 65 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\Pages\Index.razor"
        
     private Root cryptos;
     private Root filteredCryptos;
-    private string selectedSort;
-    public string SelectedSort
-    {
-        get { return selectedSort; }
-        set
-        {
-            selectedSort = value;
-            selectedSortDict[selectedSort]();
-        }
-    }
-    Dictionary<string, Action> selectedSortDict;
+    private bool isSortedAscending;
+    private string activeSortColumn;
 
     protected override async Task OnInitializedAsync()
     {
-        cryptos = filteredCryptos = await Http.GetFromJsonAsync<Root>("https://api.coinlore.net/api/tickers/?start=0&limit=100");
-        selectedSortDict = new Dictionary<string, Action>
-        {
-            ["idAsc"] = () => cryptos.data = cryptos.data.OrderBy(a => a.id.Length).ThenBy(a => a.id).ToList(),
-            ["idDesc"] = () => cryptos.data = cryptos.data.OrderByDescending(a => a.id.Length).ThenBy(a => a.id).ToList(),
-            ["nameAsc"] = () => cryptos.data = cryptos.data.OrderBy(a => a.name).ToList(),
-            ["nameDesc"] = () => cryptos.data = cryptos.data.OrderByDescending(a => a.name).ToList(),
-            ["rankAsc"] = () => cryptos.data = cryptos.data.OrderBy(a => a.rank).ToList(),
-            ["rankDesc"] = () => cryptos.data = cryptos.data.OrderByDescending(a => a.rank).ToList(),
-            ["priceAsc"] = () => cryptos.data = cryptos.data.OrderBy(a => decimal.Parse(a.price_usd)).ToList(),
-            ["priceDesc"] = () => cryptos.data = cryptos.data.OrderByDescending(a => decimal.Parse(a.price_usd)).ToList(),
-        };
+        //there are only 100 crypto currerncies in this API, set limit to max
+        cryptos = await Http.GetFromJsonAsync<Root>("https://api.coinlore.net/api/tickers/?start=0&limit=100");
+        filteredCryptos = cryptos;
     }
 
     public class Datum
@@ -161,11 +143,52 @@ using System.Linq;
         public Info info { get; set; }
     }
 
-    private void OnSearchTextChange(ChangeEventArgs changeEventArgs)
+    private async void OnSearchTextChange(ChangeEventArgs changeEventArgs)
     {
         string searchText = changeEventArgs.Value.ToString();
+        Console.WriteLine(searchText);
+        filteredCryptos.data = cryptos.data.Where(crypto => crypto.name.Contains(searchText)).ToList();
+        Console.WriteLine(cryptos.data.Count());
+        Console.WriteLine(filteredCryptos.data.Count());
+        cryptos = await Http.GetFromJsonAsync<Root>("https://api.coinlore.net/api/tickers/?start=0&limit=100");
+    }
 
-        filteredCryptos.data = cryptos.data.Where(a => a.name.Contains(searchText)).ToList();
+    private void SortTable(string columnName)
+    {
+        if (columnName != activeSortColumn)
+        {
+            filteredCryptos.data = filteredCryptos.data.OrderBy(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToList();
+            isSortedAscending = true;
+            activeSortColumn = columnName;
+        }
+        else
+        {
+            if (isSortedAscending)
+            {
+                filteredCryptos.data = filteredCryptos.data.OrderByDescending(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToList();
+            }
+            else
+            {
+                filteredCryptos.data = filteredCryptos.data.OrderBy(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToList();
+            }
+            isSortedAscending = !isSortedAscending;
+        }
+    }
+
+    private string SetSortIcon(string columnName)
+    {
+        if (activeSortColumn != columnName)
+        {
+            return string.Empty;
+        }
+        if (isSortedAscending)
+        {
+            return "fa-sort-up";
+        }
+        else
+        {
+            return "fa-sort-down";
+        }
     }
 
 #line default
