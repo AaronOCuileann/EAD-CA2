@@ -120,14 +120,14 @@ using System.Linq;
         filteredCryptos = cryptos;
         selectedSortDict = new Dictionary<string, Action>
         {
-            ["idAsc"] = () => cryptos.data = cryptos.data.OrderBy(a => a.id.Length).ThenBy(a => a.id).ToList(),
-            ["idDesc"] = () => cryptos.data = cryptos.data.OrderByDescending(a => a.id.Length).ThenBy(a => a.id).ToList(),
-            ["nameAsc"] = () => cryptos.data = cryptos.data.OrderBy(a => a.name).ToList(),
-            ["nameDesc"] = () => cryptos.data = cryptos.data.OrderByDescending(a => a.name).ToList(),
-            ["rankAsc"] = () => cryptos.data = cryptos.data.OrderBy(a => a.rank).ToList(),
-            ["rankDesc"] = () => cryptos.data = cryptos.data.OrderByDescending(a => a.rank).ToList(),
-            ["priceAsc"] = () => cryptos.data = cryptos.data.OrderBy(a => decimal.Parse(a.price_usd)).ToList(),
-            ["priceDesc"] = () => cryptos.data = cryptos.data.OrderByDescending(a => decimal.Parse(a.price_usd)).ToList(),
+            ["idAsc"] = () => filteredCryptos.data = filteredCryptos.data.OrderBy(a => a.id.Length).ThenBy(a => a.id).ToList(),
+            ["idDesc"] = () => filteredCryptos.data = filteredCryptos.data.OrderByDescending(a => a.id.Length).ThenByDescending(a => a.id).ToList(),
+            ["nameAsc"] = () => filteredCryptos.data = filteredCryptos.data.OrderBy(a => a.name).ToList(),
+            ["nameDesc"] = () => filteredCryptos.data = filteredCryptos.data.OrderByDescending(a => a.name).ToList(),
+            ["rankAsc"] = () => filteredCryptos.data = filteredCryptos.data.OrderBy(a => a.rank).ToList(),
+            ["rankDesc"] = () => filteredCryptos.data = filteredCryptos.data.OrderByDescending(a => a.rank).ToList(),
+            ["priceAsc"] = () => filteredCryptos.data = filteredCryptos.data.OrderBy(a => decimal.Parse(a.price_usd)).ToList(),
+            ["priceDesc"] = () => filteredCryptos.data = filteredCryptos.data.OrderByDescending(a => decimal.Parse(a.price_usd)).ToList(),
         };
     }
 

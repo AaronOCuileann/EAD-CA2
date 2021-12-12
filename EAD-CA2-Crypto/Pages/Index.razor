@@ -8,12 +8,16 @@
 
 <style>
     .scroll {
-        overflow: scroll;
+        overflow:scroll;
         height: 70vh;
     }
 </style>
 
 <div class="input-group mb-3">
+    <div class="input-group-prepend pr-3">
+        <label class="input-group-text">Filter: </label>
+        <input class="form-control" id="search-name" placeholder="Search Name..." @oninput="OnSearchTextChange" />
+    </div>
     <div class="input-group-prepend pr-3">
         <label class="input-group-text">Sort By: </label>
         <select @bind="SelectedSort">
@@ -27,10 +31,6 @@
             <option value="priceDesc">Price - Descending</option>
         </select>
     </div>
-    <div class="input-group-prepend">
-        <label class="input-group-text">Filter: </label>
-        <input class="form-control" id="search-name" placeholder="Search Name..." @oninput="OnSearchTextChange" />
-    </div>
 </div>
 
 @if (cryptos == null)
@@ -39,30 +39,30 @@
 }
 else
 {
-    <div class="scroll">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Rank</th>
-                    <th>Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var crypto in filteredCryptos.data)
-                {
-                    var link = $"/crypto/{crypto.id}";
-                    <tr>
-                        <td>@crypto.id</td>
-                        <td><NavLink href="@link">@crypto.name</NavLink></td>
-                        <td>@crypto.rank</td>
-                        <td>$ @crypto.price_usd</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+<div class="scroll">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Name</th>
+                <th>ID</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var crypto in filteredCryptos.data)
+            {
+                var link = $"/crypto/{crypto.id}";
+            <tr>
+                <td>@crypto.rank</td>
+                <td><NavLink href="@link">@crypto.name</NavLink></td>
+                <td>@crypto.id</td>
+                <td>$ @crypto.price_usd</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
 }
 
 @code {
@@ -87,14 +87,14 @@ else
         filteredCryptos = cryptos;
         selectedSortDict = new Dictionary<string, Action>
         {
-            ["idAsc"] = () => cryptos.data = cryptos.data.OrderBy(a => a.id.Length).ThenBy(a => a.id).ToList(),
-            ["idDesc"] = () => cryptos.data = cryptos.data.OrderByDescending(a => a.id.Length).ThenBy(a => a.id).ToList(),
-            ["nameAsc"] = () => cryptos.data = cryptos.data.OrderBy(a => a.name).ToList(),
-            ["nameDesc"] = () => cryptos.data = cryptos.data.OrderByDescending(a => a.name).ToList(),
-            ["rankAsc"] = () => cryptos.data = cryptos.data.OrderBy(a => a.rank).ToList(),
-            ["rankDesc"] = () => cryptos.data = cryptos.data.OrderByDescending(a => a.rank).ToList(),
-            ["priceAsc"] = () => cryptos.data = cryptos.data.OrderBy(a => decimal.Parse(a.price_usd)).ToList(),
-            ["priceDesc"] = () => cryptos.data = cryptos.data.OrderByDescending(a => decimal.Parse(a.price_usd)).ToList(),
+            ["idAsc"] = () => filteredCryptos.data = filteredCryptos.data.OrderBy(a => a.id.Length).ThenBy(a => a.id).ToList(),
+            ["idDesc"] = () => filteredCryptos.data = filteredCryptos.data.OrderByDescending(a => a.id.Length).ThenByDescending(a => a.id).ToList(),
+            ["nameAsc"] = () => filteredCryptos.data = filteredCryptos.data.OrderBy(a => a.name).ToList(),
+            ["nameDesc"] = () => filteredCryptos.data = filteredCryptos.data.OrderByDescending(a => a.name).ToList(),
+            ["rankAsc"] = () => filteredCryptos.data = filteredCryptos.data.OrderBy(a => a.rank).ToList(),
+            ["rankDesc"] = () => filteredCryptos.data = filteredCryptos.data.OrderByDescending(a => a.rank).ToList(),
+            ["priceAsc"] = () => filteredCryptos.data = filteredCryptos.data.OrderBy(a => decimal.Parse(a.price_usd)).ToList(),
+            ["priceDesc"] = () => filteredCryptos.data = filteredCryptos.data.OrderByDescending(a => decimal.Parse(a.price_usd)).ToList(),
         };
     }
 
