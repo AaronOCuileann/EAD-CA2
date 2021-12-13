@@ -9,6 +9,7 @@ namespace EAD_CA2_Crypto.Pages
     #line hidden
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Components;
 #nullable restore
@@ -81,13 +82,6 @@ using EAD_CA2_Crypto.Shared;
 #line default
 #line hidden
 #nullable disable
-#nullable restore
-#line 3 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\Pages\Index.razor"
-using System.Linq;
-
-#line default
-#line hidden
-#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/")]
     public partial class Index : Microsoft.AspNetCore.Components.ComponentBase
     {
@@ -97,100 +91,101 @@ using System.Linq;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 66 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\Pages\Index.razor"
-       
-    private Root cryptos;
-    private Root filteredCryptos;
-    private bool isSortedAscending;
-    private string activeSortColumn;
+#line 62 "C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\Pages\Index.razor"
+           
+        private Root cryptos;
+        private Root filteredCryptos;
+        private bool isSortedAscending;
+        private string activeSortColumn;
 
-    protected override async Task OnInitializedAsync()
-    {
-        //retrieving the top 100 cryptos from the api to display in the table
-        cryptos = await Http.GetFromJsonAsync<Root>("https://api.coinlore.net/api/tickers/?start=0&limit=100");
-        //creating a duplicate of the cryptos for filtering
-        filteredCryptos = cryptos;
-    }
-
-    public class Datum
-    {
-        public string id { get; set; }
-        public string symbol { get; set; }
-        public string name { get; set; }
-        public string nameid { get; set; }
-        public int rank { get; set; }
-        public string price_usd { get; set; }
-        public string percent_change_24h { get; set; }
-        public string percent_change_1h { get; set; }
-        public string percent_change_7d { get; set; }
-        public string price_btc { get; set; }
-        public string market_cap_usd { get; set; }
-        public double volume24 { get; set; }
-        public double volume24a { get; set; }
-        public string csupply { get; set; }
-        public string tsupply { get; set; }
-        public string msupply { get; set; }
-    }
-
-    public class Info
-    {
-        public int coins_num { get; set; }
-        public int time { get; set; }
-    }
-
-    public class Root
-    {
-        public List<Datum> data { get; set; }
-        public Info info { get; set; }
-    }
-
-    //taking the input from the search field and filtering through the list to find the cryptos that contain the search, sending a get request again to reset cryptos.
-    private async void OnSearchTextChange(ChangeEventArgs changeEventArgs)
-    {
-        string searchText = changeEventArgs.Value.ToString();
-        filteredCryptos.data = cryptos.data.Where(crypto => crypto.name.Contains(searchText)).ToList();
-        cryptos = await Http.GetFromJsonAsync<Root>("https://api.coinlore.net/api/tickers/?start=0&limit=100");
-    }
-
-    private void SortTable(string columnName)
-    {
-        if (columnName != activeSortColumn)
+        protected override async Task OnInitializedAsync()
         {
-            //ordering the filtered cryptos by ascending order if clicked on for the first time
-            filteredCryptos.data = filteredCryptos.data.OrderBy(crypto => crypto.GetType().GetProperty(columnName).GetValue(crypto, null)).ToList();
-            isSortedAscending = true;
-            activeSortColumn = columnName;
+            //retrieving the top 100 cryptos from the api to display in the table
+            cryptos = await Http.GetFromJsonAsync<Root>("https://api.coinlore.net/api/tickers/?start=0&limit=100");
+            //creating a duplicate of the cryptos for filtering
+            filteredCryptos = cryptos;
         }
-        else
+
+        public class Datum
         {
-            if (isSortedAscending)
+            public string id { get; set; }
+            public string symbol { get; set; }
+            public string name { get; set; }
+            public string nameid { get; set; }
+            public int rank { get; set; }
+            public string price_usd { get; set; }
+            public string percent_change_24h { get; set; }
+            public string percent_change_1h { get; set; }
+            public string percent_change_7d { get; set; }
+            public string price_btc { get; set; }
+            public string market_cap_usd { get; set; }
+            public double volume24 { get; set; }
+            public double volume24a { get; set; }
+            public string csupply { get; set; }
+            public string tsupply { get; set; }
+            public string msupply { get; set; }
+        }
+
+        public class Info
+        {
+            public int coins_num { get; set; }
+            public int time { get; set; }
+        }
+
+        public class Root
+        {
+            public List<Datum> data { get; set; }
+            public Info info { get; set; }
+        }
+
+        //taking the input from the search field and filtering through the list to find the cryptos that contain the search, sending a get request again to reset cryptos.
+        private async void OnSearchTextChange(ChangeEventArgs changeEventArgs)
+        {
+            string searchText = changeEventArgs.Value.ToString();
+            filteredCryptos.data = cryptos.data.Where(crypto => crypto.name.Contains(searchText, StringComparison.CurrentCultureIgnoreCase)).ToList();
+            cryptos = await Http.GetFromJsonAsync<Root>("https://api.coinlore.net/api/tickers/?start=0&limit=100");
+        }
+
+        private void SortTable(string columnName)
+        {
+            if (columnName != activeSortColumn)
             {
-                filteredCryptos.data = filteredCryptos.data.OrderByDescending(crypto => crypto.GetType().GetProperty(columnName).GetValue(crypto, null)).ToList();
+                //ordering the filtered cryptos by ascending order if clicked on for the first time
+                filteredCryptos.data = filteredCryptos.data.OrderBy(crypto => crypto.GetType().GetProperty(columnName).GetValue(crypto, null)).ToList();
+                isSortedAscending = true;
+                activeSortColumn = columnName;
             }
             else
             {
-                filteredCryptos.data = filteredCryptos.data.OrderBy(crypto => crypto.GetType().GetProperty(columnName).GetValue(crypto, null)).ToList();
+                if (isSortedAscending)
+                {
+                    filteredCryptos.data = filteredCryptos.data.OrderByDescending(crypto => crypto.GetType().GetProperty(columnName).GetValue(crypto, null)).ToList();
+                }
+                else
+                {
+                    filteredCryptos.data = filteredCryptos.data.OrderBy(crypto => crypto.GetType().GetProperty(columnName).GetValue(crypto, null)).ToList();
+                }
+                isSortedAscending = !isSortedAscending;
             }
-            isSortedAscending = !isSortedAscending;
         }
-    }
 
-    //Setting an icon in the column header
-    private string SetSortIcon(string columnName)
-    {
-        if (activeSortColumn != columnName)
+        //Setting an icon in the column header
+        private string SetSortIcon(string columnName)
         {
-            return string.Empty;
+            if (activeSortColumn != columnName)
+            {
+                return string.Empty;
+            }
+            if (isSortedAscending)
+            {
+                return "fa-sort-up";
+            }
+            else
+            {
+                return "fa-sort-down";
+            }
         }
-        if (isSortedAscending)
-        {
-            return "fa-sort-up";
-        }
-        else
-        {
-            return "fa-sort-down";
-        }
-    }
+    
 
 #line default
 #line hidden

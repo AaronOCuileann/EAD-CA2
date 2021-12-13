@@ -1,7 +1,7 @@
 ﻿@page "/crypto/{cryptoId:int}"
 @inject HttpClient Http
-@using System.Linq
 
+@*Link to the styling for the arrows used for the sort by column headers*@
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
 <style>
@@ -79,7 +79,7 @@ else
             </tbody>
         </table>
         <br />
-        <h1>Crypto Markets</h1>
+        <h1 id="MarketTitle">Crypto Markets</h1>
         <p>This table can be sorted by the Market header.</p>
         <div class="scroll">
             <table class="table table-bordered table-hover">
@@ -106,8 +106,10 @@ else
 }
 
 @code {
+    //paramater used in order to redirect to this page depending on the crypto clicked on in the homepage.
     [Parameter]
     public int cryptoId { get; set; }
+
     private bool isSortedAscending;
     private string activeSortColumn;
     private Root[] cryptos;
@@ -115,9 +117,11 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        //using the paramater to get the JSON return for a specific crypto, determined by on the homepage
         string getURL = $"https://api.coinlore.net/api/ticker/?id={cryptoId}";
         cryptos = await Http.GetFromJsonAsync<Root[]>(getURL);
 
+        //using the paramater to get the JSON return for a specific cryptos markets, determined by on the homepage
         string getMarketURL = $"https://api.coinlore.net/api/coin/markets/?id={cryptoId}";
         cryptoMarkets = await Http.GetFromJsonAsync<MarketRoot[]>(getMarketURL);
     }
@@ -158,7 +162,7 @@ else
     {
         if (columnName != activeSortColumn)
         {
-            cryptoMarkets = cryptoMarkets.OrderBy(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToArray();
+            cryptoMarkets = cryptoMarkets.OrderBy(cryptoMarket => cryptoMarket.GetType().GetProperty(columnName).GetValue(cryptoMarket, null)).ToArray();
             isSortedAscending = true;
             activeSortColumn = columnName;
         }
@@ -166,11 +170,11 @@ else
         {
             if (isSortedAscending)
             {
-                cryptoMarkets = cryptoMarkets.OrderByDescending(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToArray();
+                cryptoMarkets = cryptoMarkets.OrderByDescending(cryptoMarket => cryptoMarket.GetType().GetProperty(columnName).GetValue(cryptoMarket, null)).ToArray();
             }
             else
             {
-                cryptoMarkets = cryptoMarkets.OrderBy(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToArray();
+                cryptoMarkets = cryptoMarkets.OrderBy(cryptoMarket => cryptoMarket.GetType().GetProperty(columnName).GetValue(cryptoMarket, null)).ToArray();
             }
             isSortedAscending = !isSortedAscending;
         }

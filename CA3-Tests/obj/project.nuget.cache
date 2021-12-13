@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "T2AUUnR02GLKX2vTFjRp3oTM/MWuIjPiT7qZJTPLsIw4Qwk+UWqGJQPDIMjxxth3EIN+4mWjt2L4HEt3EKdDHQ==",
+  "dgSpecHash": "i/xbIgB34x3q6lX+uFvy5GizDUk7jk5Whbt8irPW8ICexRVDvSqAq+YMde9K+78H2q/JqWVVmilbNlkBJdojKw==",
   "success": true,
   "projectFilePath": "C:\\Users\\aaron\\EAD-CA2\\CA3-Tests\\CA3-Tests.csproj",
   "expectedPackageFiles": [
@@ -20,6 +20,7 @@
     "C:\\Users\\aaron\\.nuget\\packages\\nunit\\3.13.1\\nunit.3.13.1.nupkg.sha512",
     "C:\\Users\\aaron\\.nuget\\packages\\nunit3testadapter\\3.17.0\\nunit3testadapter.3.17.0.nupkg.sha512",
     "C:\\Users\\aaron\\.nuget\\packages\\runtime.native.system\\4.3.0\\runtime.native.system.4.3.0.nupkg.sha512",
+    "C:\\Users\\aaron\\.nuget\\packages\\selenium.firefox.webdriver\\0.27.0\\selenium.firefox.webdriver.0.27.0.nupkg.sha512",
     "C:\\Users\\aaron\\.nuget\\packages\\selenium.webdriver\\4.1.0\\selenium.webdriver.4.1.0.nupkg.sha512",
     "C:\\Users\\aaron\\.nuget\\packages\\selenium.webdriver.chromedriver\\96.0.4664.4500\\selenium.webdriver.chromedriver.96.0.4664.4500.nupkg.sha512",
     "C:\\Users\\aaron\\.nuget\\packages\\system.appcontext\\4.1.0\\system.appcontext.4.1.0.nupkg.sha512",

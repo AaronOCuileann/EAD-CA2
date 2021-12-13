@@ -439,6 +439,12 @@
           "lib/netstandard1.0/_._": {}
         }
       },
+      "Selenium.Firefox.WebDriver/0.27.0": {
+        "type": "package",
+        "build": {
+          "build/Selenium.Firefox.WebDriver.targets": {}
+        }
+      },
       "Selenium.WebDriver/4.1.0": {
         "type": "package",
         "dependencies": {
@@ -1972,6 +1978,19 @@
         "lib/netstandard1.0/_._",
         "runtime.native.system.4.3.0.nupkg.sha512",
         "runtime.native.system.nuspec"
+      ]
+    },
+    "Selenium.Firefox.WebDriver/0.27.0": {
+      "sha512": "HwCaTaa+snzkLF7ZVaxKSmdttKm+KXT7HOY8c1q8p9E7x05+WHqw5XaZjUGFytVT1+0FkgUoH/u/I+csPLeJAg==",
+      "type": "package",
+      "path": "selenium.firefox.webdriver/0.27.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "build/Selenium.Firefox.WebDriver.targets",
+        "driver/geckodriver.exe",
+        "selenium.firefox.webdriver.0.27.0.nupkg.sha512",
+        "selenium.firefox.webdriver.nuspec"
       ]
     },
     "Selenium.WebDriver/4.1.0": {
@@ -4213,6 +4232,7 @@
       "Microsoft.NET.Test.Sdk >= 16.9.4",
       "NUnit >= 3.13.1",
       "NUnit3TestAdapter >= 3.17.0",
+      "Selenium.Firefox.WebDriver >= 0.27.0",
       "Selenium.WebDriver >= 4.1.0",
       "Selenium.WebDriver.ChromeDriver >= 96.0.4664.4500",
       "coverlet.collector >= 3.0.2"
@@ -4268,6 +4288,10 @@
           "NUnit3TestAdapter": {
             "target": "Package",
             "version": "[3.17.0, )"
+          },
+          "Selenium.Firefox.WebDriver": {
+            "target": "Package",
+            "version": "[0.27.0, )"
           },
           "Selenium.WebDriver": {
             "target": "Package",

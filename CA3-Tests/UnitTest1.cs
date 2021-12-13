@@ -2,14 +2,13 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
-using System.IO;
-using System.Collections.ObjectModel;
+using System.Threading;
 
 namespace CA3_Tests
 {
     public class Tests
     {
-        IWebDriver driver;
+        WebDriver driver;
 
         [SetUp]
         public void Setup()
@@ -20,10 +19,32 @@ namespace CA3_Tests
         [Test]
         public void HomePage()
         {
-            string expectedTitle = "Top 100 Ranked Cryptos";
-            driver.Navigate().GoToUrl("http://localhost:34564/");
-            IWebElement element = driver.FindElement(By.Id("Title"));
-            Assert.AreEqual(expectedTitle, element);
+            driver.Navigate().GoToUrl("http://crypto-currency-api.azurewebsites.net/");
+            Thread.Sleep(10000);
+            IWebElement HomePageHeader = driver.FindElement(By.Id("cryptoTitle"));
+            Assert.IsTrue(HomePageHeader.Text.Contains("Top 100 Ranked Cryptos"));
+        }
+
+        [Test]
+        public void SearchPage()
+        {
+            driver.Navigate().GoToUrl("http://crypto-currency-api.azurewebsites.net/");
+            Thread.Sleep(10000);
+            driver.FindElement(By.Id("search-name")).Click();
+            driver.FindElement(By.Id("search-name")).SendKeys("tether");
+            Thread.Sleep(2000);
+            IWebElement CryptoName = driver.FindElement(By.TagName("td"));
+            Thread.Sleep(2000);
+            Assert.IsTrue(CryptoName.Text.Contains("4"));
+        }
+
+        [Test]
+        public void MarketsPage()
+        {
+            driver.Navigate().GoToUrl("http://crypto-currency-api.azurewebsites.net/crypto/90");
+            Thread.Sleep(10000);
+            IWebElement HomePageHeader = driver.FindElement(By.Id("MarketTitle"));
+            Assert.IsTrue(HomePageHeader.Text.Contains("Crypto Markets"));
         }
     }
 }

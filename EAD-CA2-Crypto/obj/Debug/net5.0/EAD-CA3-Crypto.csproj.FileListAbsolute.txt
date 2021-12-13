@@ -1,0 +1,15 @@
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\EAD-CA3-Crypto.csproj.AssemblyReference.cache
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\EAD-CA3-Crypto.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\EAD-CA3-Crypto.AssemblyInfoInputs.cache
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\EAD-CA3-Crypto.AssemblyInfo.cs
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\EAD-CA3-Crypto.csproj.CoreCompileInputs.cache
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\EAD-CA3-Crypto.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\EAD-CA3-Crypto.RazorComponent.input.cache
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\RazorDeclaration\App.razor.g.cs
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\RazorDeclaration\Pages\CryptoDetail.razor.g.cs
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\RazorDeclaration\Pages\Index.razor.g.cs
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\RazorDeclaration\Shared\SurveyPrompt.razor.g.cs
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\RazorDeclaration\_Imports.razor.g.cs
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\RazorDeclaration\Shared\MainLayout.razor.g.cs
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\RazorDeclaration\Shared\NavMenu.razor.g.cs
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\EAD-CA3-Crypto.RazorComponent.output.cache
