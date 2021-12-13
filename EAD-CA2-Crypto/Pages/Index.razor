@@ -4,14 +4,14 @@
 
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
-<h1>Top 100 Ranked Cryptos</h1>
+<h1 id="Title">Top 100 Ranked Cryptos</h1>
 
 <p>Table can be sorted by Rank and Name table headers and search input field added.</p>
 
 <style>
     .scroll {
         overflow:scroll;
-        height: 70vh;
+        max-height: 70vh;
     }
 
     .sort-th {
@@ -49,6 +49,7 @@ else
         <tbody>
             @foreach (var crypto in filteredCryptos.data)
             {
+                //the link that is referenced on the cryptos's names, redirects to the cryptos markets page
                 var link = $"/crypto/{crypto.id}";
             <tr>
                 <td>@crypto.rank</td>
@@ -70,8 +71,9 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        //there are only 100 crypto currerncies in this API, set limit to max
+        //retrieving the top 100 cryptos from the api to display in the table
         cryptos = await Http.GetFromJsonAsync<Root>("https://api.coinlore.net/api/tickers/?start=0&limit=100");
+        //creating a duplicate of the cryptos for filtering
         filteredCryptos = cryptos;
     }
 
@@ -107,13 +109,11 @@ else
         public Info info { get; set; }
     }
 
+    //taking the input from the search field and filtering through the list to find the cryptos that contain the search, sending a get request again to reset cryptos.
     private async void OnSearchTextChange(ChangeEventArgs changeEventArgs)
     {
         string searchText = changeEventArgs.Value.ToString();
-        Console.WriteLine(searchText);
         filteredCryptos.data = cryptos.data.Where(crypto => crypto.name.Contains(searchText)).ToList();
-        Console.WriteLine(cryptos.data.Count());
-        Console.WriteLine(filteredCryptos.data.Count());
         cryptos = await Http.GetFromJsonAsync<Root>("https://api.coinlore.net/api/tickers/?start=0&limit=100");
     }
 
@@ -121,7 +121,8 @@ else
     {
         if (columnName != activeSortColumn)
         {
-            filteredCryptos.data = filteredCryptos.data.OrderBy(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToList();
+            //ordering the filtered cryptos by ascending order if clicked on for the first time
+            filteredCryptos.data = filteredCryptos.data.OrderBy(crypto => crypto.GetType().GetProperty(columnName).GetValue(crypto, null)).ToList();
             isSortedAscending = true;
             activeSortColumn = columnName;
         }
@@ -129,16 +130,17 @@ else
         {
             if (isSortedAscending)
             {
-                filteredCryptos.data = filteredCryptos.data.OrderByDescending(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToList();
+                filteredCryptos.data = filteredCryptos.data.OrderByDescending(crypto => crypto.GetType().GetProperty(columnName).GetValue(crypto, null)).ToList();
             }
             else
             {
-                filteredCryptos.data = filteredCryptos.data.OrderBy(x => x.GetType().GetProperty(columnName).GetValue(x, null)).ToList();
+                filteredCryptos.data = filteredCryptos.data.OrderBy(crypto => crypto.GetType().GetProperty(columnName).GetValue(crypto, null)).ToList();
             }
             isSortedAscending = !isSortedAscending;
         }
     }
 
+    //Setting an icon in the column header
     private string SetSortIcon(string columnName)
     {
         if (activeSortColumn != columnName)

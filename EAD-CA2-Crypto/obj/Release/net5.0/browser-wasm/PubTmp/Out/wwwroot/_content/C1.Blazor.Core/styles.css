@@ -1,0 +1,21 @@
+﻿.c1view {
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none
+}
+    .c1view:focus {
+        outline: none;
+    }
+
+.c1ScrollViewer {
+    width: 0;
+    min-width: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.c1ScrollViewer:after {
+    content: '' !important;
+}

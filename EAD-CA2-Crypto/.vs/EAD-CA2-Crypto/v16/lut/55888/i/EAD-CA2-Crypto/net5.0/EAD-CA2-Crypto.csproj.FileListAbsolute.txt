@@ -1,0 +1,13 @@
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\.vs\EAD-CA2-Crypto\v16\lut\0\i\EAD-CA2-Crypto\net5.0\EAD-CA2-Crypto.csproj.AssemblyReference.cache
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\.vs\EAD-CA2-Crypto\v16\lut\0\i\EAD-CA2-Crypto\net5.0\EAD-CA2-Crypto.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\.vs\EAD-CA2-Crypto\v16\lut\0\i\EAD-CA2-Crypto\net5.0\EAD-CA2-Crypto.AssemblyInfoInputs.cache
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\.vs\EAD-CA2-Crypto\v16\lut\0\i\EAD-CA2-Crypto\net5.0\EAD-CA2-Crypto.AssemblyInfo.cs
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\.vs\EAD-CA2-Crypto\v16\lut\0\i\EAD-CA2-Crypto\net5.0\EAD-CA2-Crypto.RazorComponent.input.cache
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\.vs\EAD-CA2-Crypto\v16\lut\0\i\EAD-CA2-Crypto\net5.0\RazorDeclaration\App.razor.g.cs
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\.vs\EAD-CA2-Crypto\v16\lut\0\i\EAD-CA2-Crypto\net5.0\RazorDeclaration\Pages\CryptoDetail.razor.g.cs
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\.vs\EAD-CA2-Crypto\v16\lut\0\i\EAD-CA2-Crypto\net5.0\RazorDeclaration\Pages\Index.razor.g.cs
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\.vs\EAD-CA2-Crypto\v16\lut\0\i\EAD-CA2-Crypto\net5.0\RazorDeclaration\Shared\SurveyPrompt.razor.g.cs
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\.vs\EAD-CA2-Crypto\v16\lut\0\i\EAD-CA2-Crypto\net5.0\RazorDeclaration\_Imports.razor.g.cs
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\.vs\EAD-CA2-Crypto\v16\lut\0\i\EAD-CA2-Crypto\net5.0\RazorDeclaration\Shared\MainLayout.razor.g.cs
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\.vs\EAD-CA2-Crypto\v16\lut\0\i\EAD-CA2-Crypto\net5.0\RazorDeclaration\Shared\NavMenu.razor.g.cs
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\.vs\EAD-CA2-Crypto\v16\lut\0\i\EAD-CA2-Crypto\net5.0\EAD-CA2-Crypto.RazorComponent.output.cache

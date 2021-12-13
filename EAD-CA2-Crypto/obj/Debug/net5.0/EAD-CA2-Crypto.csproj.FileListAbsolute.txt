@@ -1066,7 +1066,6 @@ C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\EAD-CA2-Crypto.csproj.Cor
 C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\EAD-CA2-Crypto.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\EAD-CA2-Crypto.RazorComponent.input.cache
 C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\RazorDeclaration\App.razor.g.cs
-C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\RazorDeclaration\Pages\Counter.razor.g.cs
 C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\RazorDeclaration\Pages\Index.razor.g.cs
 C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\RazorDeclaration\Shared\SurveyPrompt.razor.g.cs
 C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\RazorDeclaration\_Imports.razor.g.cs
@@ -1078,7 +1077,6 @@ C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\EAD-CA2-Crypto.TagHelpers
 C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\EAD-CA2-Crypto.TagHelpers.output.cache
 C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\EAD-CA2-Crypto.RazorCoreGenerate.cache
 C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\Razor\App.razor.g.cs
-C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\Razor\Pages\Counter.razor.g.cs
 C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\Razor\Pages\Index.razor.g.cs
 C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\Razor\Shared\SurveyPrompt.razor.g.cs
 C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\Razor\_Imports.razor.g.cs
@@ -1296,3 +1294,5 @@ C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\EAD-CA2-Crypto.csproj.Cop
 C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\EAD-CA2-Crypto.dll
 C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\ref\EAD-CA2-Crypto.dll
 C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\EAD-CA2-Crypto.pdb
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\RazorDeclaration\Pages\CryptoDetail.razor.g.cs
+C:\Users\aaron\EAD-CA2\EAD-CA2-Crypto\obj\Debug\net5.0\Razor\Pages\CryptoDetail.razor.g.cs
